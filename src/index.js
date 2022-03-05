@@ -1,9 +1,9 @@
 import { Router } from 'itty-router'
-import { sample } from 'lodash'
 import { places } from './places'
 
 // Create a new router
 const router = Router()
+
 const json = j => {
   return new Response(JSON.stringify(j), {
     headers: {
@@ -12,30 +12,13 @@ const json = j => {
   })
 }
 
-function shuffle(array) {
-  var counter = array.length,
-    temp,
-    index
-
-  // While there are elements in the array
-  while (counter--) {
-    // Pick a random index
-    index = (Math.random() * counter) | 0
-
-    // And swap the last element with it
-    temp = array[counter]
-    array[counter] = array[index]
-    array[index] = temp
-  }
-
-  return array
-}
-
 router.get('/', json(places))
 
-router.get('/random', () => {
-  return json(shuffle(places)[0])
-})
+// not working, math.random is a NO NO
+// router.get('/random', () => {
+//   const randomID = Math.floor(Math.random() * (places.length - 1))
+//   return json(places.find(place => place.id === randomID))
+// })
 
 router.get('/country/:country', ({ params }) => {
   let input = decodeURIComponent(params.country).toLocaleLowerCase()
@@ -71,10 +54,6 @@ Visit any page that doesn't exist (e.g. /foobar) to see it in action.
 */
 router.all('*', () => new Response('404, not found!', { status: 404 }))
 
-/*
-This snippet ties our worker to the router we deifned above, all incoming requests
-are passed to the router where your routes are called and the response is sent.
-*/
 addEventListener('fetch', e => {
   e.respondWith(router.handle(e.request))
 })
