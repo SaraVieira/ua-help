@@ -238,4 +238,12 @@ export const places = [
     countries: [countries.PL, countries.US],
     description: '',
   },
+  {
+    name: 'Pomagam Ukrainie',
+    link: 'https://pomagamukrainie.gov.pl/',
+    categories: [categories['humanitarian-aid']],
+    countries: [countries.PL],
+    description:
+      'Government website from the polish government to help ukrainian people in poland',
+  },
 ]
