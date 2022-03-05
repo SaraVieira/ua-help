@@ -1,22 +1,18 @@
 {
+  "name": "vite-project",
   "private": true,
-  "name": "ua-help-api",
-  "version": "1.0.0",
-  "description": "A template for kick starting a Cloudflare Workers project",
-  "main": "src/index.js",
+  "version": "0.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write '**/*.{js,css,json,md}'"
-  },
-  "author": "Sara Vieira <hey@iamsaravieira.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "prettier": "^1.18.2"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "graphql": "^16.3.0",
-    "graphql-request": "^4.0.0",
-    "itty-router": "^2.5.2",
-    "lodash": "^4.17.21"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.0.7",
+    "vite": "^2.8.0"
   }
 }
