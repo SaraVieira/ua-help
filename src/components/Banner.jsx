@@ -14,7 +14,12 @@ export const Banner = () => {
         <div className="flag" />
         <p>Stand with Ukraine</p>
       </div>
-      <a title={`Donate to ${place.name}`} target="_blank" href={place.link}>
+      <a
+        title={`Donate to ${place.name}`}
+        target="_blank"
+        href={place.link}
+        rel="noreferrer"
+      >
         Donate
       </a>
     </header>
