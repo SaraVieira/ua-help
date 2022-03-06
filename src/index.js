@@ -29,7 +29,7 @@ router.get('/random', () => {
       return (have * got) / had
     }
     const OneHundredBase = parseInt(seed.toString().substr(-2))
-    return Math.floor(ruleOfThree(100, places.length, OneHundredBase))
+    return Math.floor(ruleOfThree(100, places.length - 1, OneHundredBase))
   }
   return json(places[xorShift()])
 })
