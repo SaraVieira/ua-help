@@ -17,6 +17,23 @@ router.get('/', async () => {
   return json(places)
 })
 
+router.get('/random', () => {
+  const currentDate = new Date()
+  let seed = currentDate.getTime()
+  function xorShift() {
+    seed ^= seed << 13
+    seed ^= seed >> 17
+    seed ^= seed << 5
+
+    function ruleOfThree(had, got, have) {
+      return (have * got) / had
+    }
+    const OneHundredBase = parseInt(seed.toString().substr(-2))
+    return Math.floor(ruleOfThree(100, places.length, OneHundredBase))
+  }
+  return json(places[xorShift()])
+})
+
 router.get('/country/:country', ({ params }) => {
   let input = decodeURIComponent(params.country).toLocaleLowerCase()
 
