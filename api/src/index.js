@@ -24,7 +24,7 @@ router.get('/', async () => {
   return json(places)
 })
 
-router.get('/random', () => {
+const getRandom = (length = places.length - 1) => {
   const currentDate = new Date()
   let seed = currentDate.getTime()
   function xorShift() {
@@ -36,35 +36,51 @@ router.get('/random', () => {
       return (have * got) / had
     }
     const OneHundredBase = parseInt(seed.toString().substr(-2))
-    return Math.floor(ruleOfThree(100, places.length - 1, OneHundredBase))
+    return Math.floor(ruleOfThree(100, length, OneHundredBase))
   }
-  return json(places[xorShift()])
+
+  return xorShift()
+}
+
+const getPlacesByCountry = input =>
+  places.filter(place => {
+    const countries = place.countries.map(country => country.code.toLowerCase())
+    const countriesID = place.countries.map(country => country.id)
+    return countries.includes(input) || countriesID.includes(input)
+  })
+
+const getPlacesByCategory = input =>
+  places.filter(place => {
+    const cats = place.categories.map(cat => cat.slug)
+    const catsId = place.categories.map(cat => cat.id)
+    return cats.includes(input) || catsId.includes(input)
+  })
+
+router.get('/random', () => {
+  return json(places[getRandom()])
+})
+
+router.get('/random/country/:country', ({ params }) => {
+  let input = decodeURIComponent(params.country).toLocaleLowerCase()
+  const placesWithCountry = getPlacesByCountry(input)
+  return json(placesWithCountry[getRandom(placesWithCountry.length - 1)])
+})
+
+router.get('/random/category/:category', ({ params }) => {
+  let input = decodeURIComponent(params.category).toLocaleLowerCase()
+  const placesWithCategory = getPlacesByCategory(input)
+  return json(placesWithCategory[getRandom(placesWithCategory.length - 1)])
 })
 
 router.get('/country/:country', ({ params }) => {
   let input = decodeURIComponent(params.country).toLocaleLowerCase()
-
-  return json(
-    places.filter(place => {
-      const countries = place.countries.map(country =>
-        country.code.toLowerCase(),
-      )
-      const countriesID = place.countries.map(country => country.id)
-      return countries.includes(input) || countriesID.includes(input)
-    }),
-  )
+  return json(getPlacesByCountry(input))
 })
 
 router.get('/category/:category', ({ params }) => {
   let input = decodeURIComponent(params.category)
 
-  return json(
-    places.filter(place => {
-      const cats = place.categories.map(cat => cat.slug)
-      const catsId = place.categories.map(cat => cat.id)
-      return cats.includes(input) || catsId.includes(input)
-    }),
-  )
+  return json(getPlacesByCategory(input))
 })
 
 /*
