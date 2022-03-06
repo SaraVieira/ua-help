@@ -1,11 +1,18 @@
 import { Router } from 'itty-router'
 import { places } from './places'
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS',
+  'Access-Control-Max-Age': '86400',
+}
+
 // Create a new router
 const router = Router()
 const json = j => {
   return new Response(JSON.stringify(j), {
     headers: {
+      ...corsHeaders,
       'Content-Type': 'text/json',
     },
   })
